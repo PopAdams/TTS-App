@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#173b36">
+    <title>Suarasa — Studio TTS</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="story-panel">
+        <div class="brand"><span class="brand-mark" aria-hidden="true">su</span><span>SUARASA<span class="brand-sub">STUDIO TTS</span></span></div>
+
+        <div class="story-copy">
+          <p class="eyebrow">KATA-KATA, PUNYA RASA</p>
+          <h1>Suara yang<br><em>terdengar</em><br>seperti kamu.</h1>
+          <p class="story-description">Ubah naskah jadi narasi Bahasa Indonesia atau Jawa. Atur pembawaan, pilih karakter suara, lalu simpan hasilnya sebagai MP3.</p>
+        </div>
+
+        <div class="sound-card" aria-hidden="true">
+          <div class="sound-card-top"><span>SUARASA / TAKE 01</span><span class="record-dot"></span></div>
+          <div class="waveform">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <div class="sound-card-bottom"><span>SUARA SIAP DIPUTAR</span><span>MP3 · GEMINI</span></div>
+        </div>
+        <p class="panel-foot">Dibuat untuk narasi yang terasa dekat.</p>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <span class="topbar-label">AI VOICE WORKSPACE</span>
+          <span class="engine-label"><span class="engine-dot"></span> GEMINI TTS</span>
+        </header>
+
+        <section class="editor">
+          <div class="editor-heading">
+            <div>
+              <p class="eyebrow">STUDIO NARASI</p>
+              <h2>Tentukan suaranya.</h2>
+              <p class="intro">Pilih karakter audio, lalu tulis teks yang mau dibacakan.</p>
+            </div>
+            <span class="take-number">01 <span>/ 01</span></span>
+          </div>
+
+          <form id="generator-form">
+            <p class="key-note">API key dibaca server dari file <code>.env</code> lokal dan tidak dikirim dari browser.</p>
+
+            <div class="settings-grid">
+              <div class="field">
+                <label for="language">BAHASA & LOGAT</label>
+                <select id="language" name="language">
+                  <option value="indonesia">Indonesia · logat Indonesia</option>
+                  <option value="jawa">Jawa · Basa Jawa</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="vibe">VIBE SUARA</label>
+                <select id="vibe" name="vibe">
+                  <option value="sedih">Sedih · lembut dan menyentuh</option>
+                  <option value="ceria">Ceria · hangat dan bersemangat</option>
+                  <option value="puitis">Puitis · mengalir dan ekspresif</option>
+                  <option value="berwibawa">Berwibawa · tenang dan mantap</option>
+                  <option value="seram">Seram · pelan dan menegangkan</option>
+                </select>
+              </div>
+            </div>
+
+            <fieldset class="field voice-field">
+              <legend>KARAKTER SUARA</legend>
+              <div class="voice-options">
+                <label class="voice-option">
+                  <input type="radio" name="voice" value="Charon" checked>
+                  <span class="voice-card"><span class="voice-icon" aria-hidden="true">♂</span><span><strong>Pria</strong><small>Karakter Charon</small></span><span class="radio-dot"></span></span>
+                </label>
+                <label class="voice-option">
+                  <input type="radio" name="voice" value="Kore">
+                  <span class="voice-card"><span class="voice-icon" aria-hidden="true">♀</span><span><strong>Wanita</strong><small>Karakter Kore</small></span><span class="radio-dot"></span></span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="field tempo-field">
+              <div class="tempo-heading"><label for="tempo">TEMPO BICARA</label><output id="tempo-value" for="tempo">1.00×</output></div>
+              <input id="tempo" name="tempo" type="range" min="0.70" max="1.30" step="0.05" value="1">
+              <div class="tempo-scale"><span>LEBIH PELAN</span><span>LEBIH CEPAT</span></div>
+              <small>Tempo diarahkan ke Gemini; hasil akhir bisa sedikit bervariasi.</small>
+            </div>
+
+            <div class="field narration-field">
+              <div class="narration-heading"><label for="narration">NARASI</label><span class="live-dot">● SIAP DIREKAM</span></div>
+              <textarea id="narration" name="text" rows="6" placeholder="Tulis atau tempel naskahmu di sini…" required></textarea>
+              <div class="narration-meta"><span>Tanpa batas karakter di kolom ini</span><span id="character-count">0 karakter</span></div>
+            </div>
+
+            <button class="generate-button" id="generate-button" type="submit">
+              <span class="button-icon" aria-hidden="true">▶</span>
+              <span id="button-label">BUAT AUDIO MP3</span>
+              <span class="button-arrow" aria-hidden="true">↗</span>
+            </button>
+          </form>
+
+          <section class="result-panel" id="result-panel" hidden aria-labelledby="result-title">
+            <div class="result-heading">
+              <div><p class="eyebrow">TAKE SELESAI</p><h3 id="result-title">Narasi kamu siap.</h3></div>
+              <span class="result-check" aria-hidden="true">✓</span>
+            </div>
+            <audio id="audio-player" controls preload="metadata"></audio>
+            <a class="download-button" id="download-link" download="suarasa-narasi.mp3">UNDUH MP3 <span aria-hidden="true">↓</span></a>
+          </section>
+
+          <p class="status-message" id="status-message" role="status" aria-live="polite"></p>
+          <p class="privacy-note">Teks narasi dikirim ke Gemini. API key berada di file .env lokal dan tidak masuk ke kode halaman atau permintaan browser.</p>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js" defer></script>
+  </body>
+</html>
